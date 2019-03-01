@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  {firebaseMethods} from '../../firebase/Firebase';
 
 import {
 
@@ -26,7 +27,6 @@ import { Styles } from './Styles';
 
 class Login extends Component {
 
-    
 
     constructor(props, context) {
 
@@ -129,8 +129,27 @@ class Login extends Component {
 
     onPressLogin() {
 
-    
-        let isValidScreen = this.isValidScreen();
+
+   
+        let {email ,  pass}=this.state.inputs;
+
+         let isValidScreen = this.isValidScreen();
+        
+        if(isValidScreen)
+        {
+            firebaseMethods.loginFunction(email.value,pass.value,(error,res)=>{
+                if(error){
+                    console.log('error' ,error);
+                    
+
+                }else{
+                    this.props.navigation.navigate('Dashboard')
+                }
+            });
+
+        }
+
+
 
 
     }
@@ -160,6 +179,7 @@ renderInputs() {
                 underlineColorAndroid={!email.isValid ? COLORS.RED : COLORS.Moccasin}
                 
                 onChangeText={(newValue) => this.onValueChange('email', newValue)}
+
 
                 errorMessage={email.errorMessage}
 
@@ -201,8 +221,8 @@ renderButton() {
 
     return (
 
-        <Button  buttonStyle={button}  onPress={() => this.onPressLogin()}>
-        
+        <Button  buttonStyle={button} 
+         onPress={() => this.onPressLogin()}>
         <Text>login</Text>
         
            </Button>
