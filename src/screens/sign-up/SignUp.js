@@ -16,14 +16,14 @@ import {
 } from '../../components';
 import { COLORS } from '../../styling'
 import { Styles } from './Styles';
-
+import { firebaseMethods } from '../../firebase/Firebase';
 
 class SignUp extends Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            
+
 
             inputs: {
 
@@ -222,7 +222,7 @@ class SignUp extends Component {
 
         }
 
-        
+
 
         return isValidScreen;
 
@@ -230,27 +230,34 @@ class SignUp extends Component {
 
     onPressSignUp() {
 
-        
-      
         let isValidScreen = this.isValidScreen();
+        if (isValidScreen) {
+            firebaseMethods.signUp(this.state.inputs.email.value, this.state.inputs.pass.value, (error, res) => {
+                if (error) {
+                    console.log('error', error)
+                } else {
+                    this.props.navigation.navigate('AddSalary');
+                }
+            })
+        }
 
     }
 
     renderButton() {
 
         let { button } = this.state;
-    
-    
-    
+
+
+
         return (
-    
-            <Button  buttonStyle={button} onPress={() => this.onPressSignUp()}>
-            <Text>Sign UP</Text>
-               </Button>
+
+            <Button buttonStyle={button} onPress={() => this.onPressSignUp()}>
+                <Text>Sign UP</Text>
+            </Button>
         )
-    
+
     }
-  
+
 
     renderBackButton() {
 
@@ -262,7 +269,7 @@ class SignUp extends Component {
 
             <TouchableOpacity style={Styles.backButtonContainer} onPress={() => navigation.goBack()}>
 
-              <Text>go Back</Text>
+                <Text>go Back</Text>
 
             </TouchableOpacity>
 
@@ -271,13 +278,13 @@ class SignUp extends Component {
     }
 
     renderImage() {
-        return(
-        <ImageBackground source={require('./s.jpg')}
-        style={Styles.Imagebackground}
-        
-        />
+        return (
+            <ImageBackground source={require('./s.jpg')}
+                style={Styles.Imagebackground}
+
+            />
         );
-        
+
     }
 
     render() {
@@ -286,9 +293,9 @@ class SignUp extends Component {
 
         return (
 
-            
+
             <View style={Styles.Container}>
-                 {this.renderImage()}
+                {this.renderImage()}
                 {this.renderBackButton()}
 
                 {this.renderInputs()}
@@ -298,9 +305,9 @@ class SignUp extends Component {
 
                 <Text
 
-               onPress={() => navigation.navigate('AddSalary')}
-               style={Styles.addSalary}>
-                AddSalary
+                    onPress={() => navigation.navigate('AddSalary')}
+                    style={Styles.addSalary}>
+                    AddSalary
                  </Text>
 
             </View>

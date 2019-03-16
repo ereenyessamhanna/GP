@@ -17,6 +17,14 @@ class Firebase {
     
     }
       
+    signUp(email, password,callBack) {
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(res=>{
+            console.log('then callled',res)
+            callBack(null,res)
+        }).catch((error) => {
+            callBack(error,null)
+        });
+    }
 
 }
 
