@@ -308,7 +308,7 @@ class SignUp extends Component {
                     onPress={() => navigation.navigate('AddSalary')}
                     style={Styles.addSalary}>
                     AddSalary
-                 </Text>
+                 </Text> 
 
             </View>
 
